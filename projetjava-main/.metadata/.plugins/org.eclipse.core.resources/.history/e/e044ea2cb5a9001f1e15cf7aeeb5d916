@@ -1,0 +1,14 @@
+package com.example.projetjava;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import ch.qos.logback.core.model.Model;
+public interface UserRepository extends JpaRepository<User, Long> {
+
+}
+@GetMapping("/register")
+public String  showRegistrationForm(Model model) {
+    model.addAttribute("user", new User());
+     
+    return "signup_form";
+}

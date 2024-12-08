@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carte des Points de Collecte</title>
+    <!-- Feuille de style Leaflet -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <style>
+        #map {
+            height: 600px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <h1>Carte des Points de Collecte</h1>
+    <div id="map"></div>
+
+	<script th:inline="javascript" >
+	    // Initialisation de la carte centrée sur Tunis
+	    var map = L.map('map').setView([36.8065, 10.1815], 13);
+
+	    // Fond de carte OpenStreetMap
+	    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+	        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+	    }).addTo(map);
+
+	    // Injection des données des points de collecte via Thymeleaf
+	    var collectPoints = /*[[${collectPoints}]]*/ [];
+
+	    console.log(collectPoints); // Pour vérifier que les données sont bien injectées
+
+	    // Icône personnalisée pour les points de collecte
+	    var collectIcon = L.icon({
+	        iconUrl: '/icons/icons8-collect-50.png', // Remplacez avec le chemin correct
+	        iconSize: [32, 32],
+	        iconAnchor: [16, 32],
+	        popupAnchor: [0, -32]
+	    });
+
+	    // Ajouter les marqueurs sur la carte
+	    collectPoints.forEach(function(point) {
+	        L.marker([point.latitude, point.longitude], { icon: collectIcon })
+	            .addTo(map)
+	            .bindPopup('<b>' + point.name + '</b><br>Latitude : ' + point.latitude + '<br>Longitude : ' + point.longitude);
+	    });
+	</script>
+</body>
+</html>

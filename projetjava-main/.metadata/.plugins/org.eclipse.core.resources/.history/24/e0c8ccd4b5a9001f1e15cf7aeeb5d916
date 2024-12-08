@@ -1,0 +1,26 @@
+package com.example.projetjava;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import ch.qos.logback.core.model.Model;
+ 
+@Controller
+public class AppController {
+ 
+    @Autowired
+    private UserRepository userRepo;
+     
+    @GetMapping("")
+    public String viewHomePage() {
+        return "index";
+    }
+    
+    @GetMapping("/register")
+    public String showRegistrationForm(Model model) {
+        model.addAttribute("user", new User());
+         
+        return "signup_form";
+    }
+}
